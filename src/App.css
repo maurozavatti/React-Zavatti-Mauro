@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat Alternates', sans-serif;
+  background-image: url(../public/img/descarga.jfif);
+  height: 100%;
+  width: 100%;
 }
 
 .App-logo {
