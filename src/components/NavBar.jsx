@@ -30,7 +30,10 @@ function NavBar(){
                     <Link className="nav-link fw-bold text-dark" to="/category/sillones">Living</Link>
                     </li>
                 </ul>
-                <ButtonCarrito></ButtonCarrito>
+                <Link to="/cart">
+                    <ButtonCarrito></ButtonCarrito>
+                </Link>
+                
             </div>
         </div>
     </nav>

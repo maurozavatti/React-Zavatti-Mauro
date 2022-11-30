@@ -1,38 +1,45 @@
 import React, {useState, useEffect } from 'react'
-import {getSingleItemFromAPI}  from '../../mockService/mockService';
+import {getSingleItemFromAPI}  from '../../services/firebase';
 import { useParams } from 'react-router-dom';
-import ItemCount from '../ItemCount/ItemCount';
-import Button from '../Button/Button';
 import "./itemdetail.css";
+import ItemDetail from './ItemDetail';
+import Loader from '../Loader/Loader';
+import FlexWrapper from '../FlexWrapper/FlexWrapper';
+
 
 function ItemDetailContainer() {
- const [product, setProduct] = useState ([]);
- 
-let params = useParams();
-let id = params.id;
-
- useEffect (()=> {
-    getSingleItemFromAPI(id).then ((myArray) => {
-        setProduct (myArray);
-    }).catch (error => alert (error));
- }, []);
- 
- return ( <>
-    <div className='detail_container'>
-        <div className='card_detail'>
-            <h5 className="card-title">{product.title}</h5>
-            <img src={product.imgurl} className="card-img-top" alt={product.title}/>
-            <div className="card-body">
-            <p className="card-text">$ {product.price}</p>
-            <p className="card-text">{product.detail}</p>
-            <ItemCount stock ={product.stock}></ItemCount>
-            </div>
-        </div>
-    </div>
+    const [product, setProduct] = useState (null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [feedbackMsg, setFeedbackMsg] = useState(null);
     
-      
- </>);
+    
+    let id = useParams().id;
 
-}
+    useEffect (()=> {
+        getSingleItemFromAPI(id).then ((myArray) => {
+            setProduct (myArray);
+        })
+        .catch ((error) => {
+            setFeedbackMsg(error.message);
+        })
+        .finally (()=> setIsLoading(false));
+    }, [id]);
+    
+    if (isLoading)
+    return (
+        <FlexWrapper>
+            <Loader color="black" size={128}></Loader>
+        </FlexWrapper>
+    );
 
-export default ItemDetailContainer;
+    return (
+        <div>
+            {feedbackMsg ? 
+                <h3 style={{backgroundColor:"orange"}}>{feedbackMsg}</h3>
+                :
+            <ItemDetail product={product}/>}
+        </div>
+    )
+    }
+
+    export default ItemDetailContainer;

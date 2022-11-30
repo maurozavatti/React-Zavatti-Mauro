@@ -2,24 +2,24 @@ import React, {useState} from 'react';
 import Button from '../Button/Button';
 import "./itemcount.css"
 
-function ItemCount({stock}) {
+function ItemCount({stock, onAddToCart}) {
     
     const [ cantidad, setCantidad ] = useState(1);
     
-    function handleIncrement(){if(cantidad < stock){setCantidad(cantidad + 1);}}
-    function handleDecrement()
+    function handleAdd(evt){if(cantidad < stock){setCantidad(cantidad + 1);}}
+    
+    function handleSubstract(evt)
     {if(cantidad > 1){setCantidad(cantidad - 1);}}
-    function handleAddToCart()
-    {console.log("Agregado al cart")}
+    
     
     return (
     <div className='itemcount_container'>
         <div className='itemcount_control'>
-            <button className='bg-danger' onClick={handleDecrement}>-</button>
+            <Button className='bg-danger' onClick={handleSubstract}>-</Button>
             <p className='m-2 fs-bold'>{cantidad}</p>
-            <button className='bg-info' onClick={handleIncrement}>+</button>
+            <Button className='bg-info' onClick={handleAdd}>+</Button>
             <br/>
-            <button className='bg-warning fs-bold' onClick={handleAddToCart}>Agregar al carrito</button>
+            <Button className='bg-warning fs-bold' onClick={()=> onAddToCart (cantidad)}>Agregar al carrito</Button>
         </div>
     </div>)}
     
